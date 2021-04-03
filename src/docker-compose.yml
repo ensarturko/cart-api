@@ -10,5 +10,11 @@ services:
       - "1433:1433"
   cart-api:
     build: .
+    environment:
+      DatabaseServer: "mssql-server"
+      DatabasePort: "1433"
+      DatabaseUser: "SA"
+      DatabasePassword: "Docker2021"
+      DatabaseName: "applicationdb"
     ports:
       - "8090:80"
