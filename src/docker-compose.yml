@@ -1,0 +1,14 @@
+version: '3'
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      ACCEPT_EULA: "YES"
+      SA_PASSWORD: "Docker2021"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+  cart-api:
+    build: .
+    ports:
+      - "8090:80"
