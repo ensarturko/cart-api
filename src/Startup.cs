@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using cart_api.Infrastructure;
 using cart_api.Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace cart_api
@@ -36,10 +30,12 @@ namespace cart_api
             var databaseName = Configuration["DatabaseName"] ?? "";
 
             var connectionString =
-                $"Server={server}, {port}; Initial Catalog={databaseName}; User ID= {user}; Password= {password}";
+                $"Server={server}, {port}; Initial Catalog={databaseName}; User ID= {user}; Password= {password}; MultipleActiveResultSets=true;Integrated Security=false;TrustServerCertificate=true";
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -51,13 +47,10 @@ namespace cart_api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             DatabaseManagementService.MigrationInitialization(app);
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "cart_api v1"));
-            }
+            
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cart Api v2"));
 
             app.UseHttpsRedirection();
 

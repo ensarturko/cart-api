@@ -10,5 +10,7 @@ namespace cart_api.Domain.Entities
         public string Barcode { get; set; }
 
         public bool IsActive { get; set; }
+        
+        public int StockQuantity { get; set; }
     }
 }

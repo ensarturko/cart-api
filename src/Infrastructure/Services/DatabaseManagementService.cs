@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,8 +8,10 @@ namespace cart_api.Infrastructure.Services
     {
         public static void MigrationInitialization(IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices.CreateScope();
-            serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+            }
         }
     }
 }

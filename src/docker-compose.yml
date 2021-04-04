@@ -15,6 +15,6 @@ services:
       DatabasePort: "1433"
       DatabaseUser: "SA"
       DatabasePassword: "Docker2021"
-      DatabaseName: "applicationdb"
+      DatabaseName: "applicationdb2"
     ports:
       - "8090:80"
